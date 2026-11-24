@@ -1,0 +1,71 @@
+# Agent Hub v1 示例配置文件
+# 复制为 ~/.agent-hub/config.yaml 并按本机角色调整
+
+# 当前节点角色: "hub" (Mini) | "companion" (Mac)
+role: hub
+nodeId: mini
+nodeName: Mac mini (Main)
+
+# 监听地址与端口（默认仅绑定 127.0.0.1，通过 SSH 双向隧道安全互通）
+host: 127.0.0.1
+port: 4780
+
+# 双端鉴权 Token（建议 Mac 和 Mini 使用同一个随机串，也可用环境变量 AGENT_HUB_TOKEN 覆盖）
+authToken: "change-me-to-a-random-token"
+
+# 当前节点用户主目录与工作区根目录列表
+# Mini 用于按 Git origin URL 扫描已有仓库，以及自动 clone 缺失仓库
+homeDir: "/Users/mini-user"
+workspaceRoots:
+  - "/Users/mini-user/Workspace"
+  - "/Users/mini-user/Projects"
+
+# 当 Mini 目标仓库存在未提交改动或正被其他会话占用时，自动创建独立 git worktree 的目录
+worktreesRoot: "/Users/mini-user/.agent-hub/worktrees"
+
+# 状态库与缓存数据目录
+dataDir: "/Users/mini-user/.agent-hub"
+
+# 仅 Hub (Mini) 需要：Mac Companion 地址（经由 Mac 发起的 ssh -R 4781:127.0.0.1:4781 隧道可达）
+companionUrl: "http://127.0.0.1:4781"
+companionNodeId: "mac"
+companionNodeName: "MacBook Pro"
+
+# 仅 Companion (Mac) 需要：SSH 登录 Mini 的别名或 user@host，以及 Mini Hub 本地端口
+sshHost: "mini"
+hubUrl: "http://127.0.0.1:4780"
+
+# 可选：显式路径映射规则（优先级高于按 Git origin 自动匹配）
+# 适用于非 Git 目录或特殊路径映射
+repoMappings:
+  - sourceCwd: "/Users/mac-user/Workspace/my-special-repo"
+    targetCwd: "/Users/mini-user/Workspace/custom-name-repo"
+
+# Agent CLI 配置（留空则自动从 PATH 及常见安装路径探测）
+agents:
+  agy:
+    binary: ""
+    preserveShellHooks: false
+    defaultArgs: []
+  pi:
+    binary: ""
+    preserveShellHooks: false
+    defaultArgs: []
+  claude:
+    binary: ""
+    # 设为 true 时通过交互/登录 zsh 启动以保留 ~/.zshrc 中的自定义 shell wrapper / hook
+    preserveShellHooks: true
+    defaultArgs: []
+  qodercli:
+    binary: ""
+    preserveShellHooks: true
+    defaultArgs: []
+
+# 移交策略配置
+handoff:
+  wipBranchPrefix: "wip/handoff"
+  # 当移交前会话正在 RUNNING，Mini resume 就绪后注入的续跑指令模板
+  continuationPromptTemplate: |
+    [Agent Hub 移交续跑] 本会话已从 {{sourceNode}} 移交至 {{targetNode}}，代码分支已同步为 {{wipBranch}}（工作目录：{{targetCwd}}）。请先快速确认当前代码改动与上下文进度，然后继续完成未完成的任务。
+  # 是否为 agy 开启原生恢复失败时的自动降级兜底（agy -i + fallback_context.md）
+  enableAgyFallback: true

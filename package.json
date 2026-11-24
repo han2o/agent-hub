@@ -1,0 +1,22 @@
+{
+  "name": "agent-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Unified Mac + Mac mini multi-agent session control and seamless Mac -> Mini handoff system",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "dev:hub": "pnpm --filter @agent-hub/cli exec node dist/index.js hub",
+    "dev:companion": "pnpm --filter @agent-hub/cli exec node dist/index.js companion",
+    "dev:web": "pnpm --filter @agent-hub/web dev"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.3 || ^7.0.0",
+    "vitest": "^4.1.0 || ^5.0.0"
+  }
+}

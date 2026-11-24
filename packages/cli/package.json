@@ -1,0 +1,25 @@
+{
+  "name": "@agent-hub/cli",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "agent-hub": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agent-hub/adapters": "workspace:*",
+    "@agent-hub/companion": "workspace:*",
+    "@agent-hub/hub": "workspace:*",
+    "@agent-hub/protocol": "workspace:*",
+    "@agent-hub/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.3 || ^7.0.0"
+  }
+}

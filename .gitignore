@@ -1,0 +1,12 @@
+node_modules/
+**/dist/
+*.tsbuildinfo
+.DS_Store
+*.log
+*.db
+*.db-shm
+*.db-wal
+config.yaml
+config.local.yaml
+.agent-hub/
+coverage/

@@ -1,0 +1,9 @@
+{
+  "name": "Agent Hub",
+  "short_name": "AgentHub",
+  "description": "Mac + Mac mini 多 Agent 会话控制台与无缝移交中心",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f17",
+  "theme_color": "#0b0f17"
+}
